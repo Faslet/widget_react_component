@@ -29,7 +29,7 @@ export function ThankYou() {
             <h2>Thank you</h2>
             <p>Your order has been received!</p>
 
-            <img className="main-image" src="https://placekitten.com/600/400"/>
+            <img className="main-image" src="https://placekitten.com/600/400" alt="main" />
         </div>
     </>
 }

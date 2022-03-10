@@ -17,7 +17,8 @@
     "declaration": true,
     "baseUrl": "src",
     "resolveJsonModule": true,
-    "jsx": "react"
+    "jsx": "react",
+    "sourceRoot": "src/"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
