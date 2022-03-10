@@ -1,96 +1,101 @@
-# Faslet Widget NPM Module
+# Faslet React Widget
 
 ### Usage
-To use this project in your own, pull down this plugin with
+To use this component in your app, pull down this component with
 ```bash
-npm install @faslet/widget
+npm install @faslet/react-widget
 ```
 
 #### Widget (Product page)
 
 Example usage with shop id `Faslet Demo`
-```typescript
-import { createWidget } from '@faslet/widget';
+```jsx
+import { FasletWidget } from '@faslet/react-widget';
 
-const widget = createWidget('Faslet Demo')
-    .withBrand('Faslet Demo Brand')
-    .withProductId('product-1')
-    .withProductImage('https://placekitten.com/100')
-    .withProductName('Jacket')
-    .withFasletProductTag('Faslet_Jacket_Male')
-    .withAddToCart(myAddToCartFunction);
+function ExampleProductPage() {
 
-widget
-    .addColor('red', 'Magnificent Red')
-    .addColor('blue', 'Dashing Blue');
+    // Get the product variants and colors
+    const colors = [{ id: 'red', name: 'Magnificent Red'},{ id: 'blue', name: 'Dashing Blue'}];
+    const variants = [
+        {variantId: 'variant-1', sizeLabel: 'S', inStock: true, sku: 'sku-1', colorId: 'red' },
+        {variantId: 'variant-2', sizeLabel: 'S', inStock: true, sku: 'sku-2', colorId: 'blue' },
+        {variantId: 'variant-3', sizeLabel: 'M', inStock: true, sku: 'sku-3', colorId: 'red' },
+        {variantId: 'variant-4', sizeLabel: 'M', inStock: false, sku: 'sku-4', colorId: 'blue' },
+        {variantId: 'variant-5', sizeLabel: 'L', inStock: false, sku: 'sku-5', colorId: 'red' },
+        {variantId: 'variant-6', sizeLabel: 'L', inStock: false, sku: 'sku-6', colorId: 'blue' }
+    ];
+    
+    // Render the widget
+    return  (
+        <>
+            <FasletWidget
+                productId="product-1"
+                shopId="Faslet Demo"
+                brandId="Faslet Demo Brand"
+                fasletTag="Faslet_Jacket_Male"
+                productImageUrl="https://placekitten.com/100/150"
+                productName="Jacket"
+                colors={colors}
+                variants={variants}
+                onAddToCart={addToCart}
+            />
+        </>
+    );
+}
 
-widget
-    .addVariant('variant-1', 'S', true, 'sku-1', 'red')
-    .addVariant('variant-2', 'S', true, 'sku-2', 'blue')
-    .addVariant('variant-3', 'M', true, 'sku-3', 'red')
-    .addVariant('variant-4', 'M', false, 'sku-4', 'blue')
-    .addVariant('variant-5', 'L', false, 'sku-5', 'red')
-    .addVariant('variant-6', 'L', false, 'sku-6', 'blue');
 
-widget.injectScriptTag();
-
-// Add to this Selector in your HTML
-widget.addToDom('#faslet-container');
 ```
 
 
 #### Order Tracking (After checkout/Thank You page)
 Example usage with shop id `Faslet Demo`
-```typescript
-import { createOrderTracking } from '@faslet/widget';
+```jsx
+import { useFasletOrderTracking } from '@faslet/react-widget';
 
-const ot = createOrderTracking('Faslet Demo')
-    .withOrderNumber('Order-1')
-    .withPaymentStatus('paid');
+export function ExampleThankYouPage() {
+    const productsInOrder = [
+        {
+            productId: 'product-1',
+            variantId: 'variant-1',
+            productName: 'Jacket',
+            variantName: 'Red Jacket/S',
+            priceTimesQuantity: 100,
+            quantity: 1,
+            sku: 'sku-1'
+        }, {
+            productId: 'product-1',
+            variantId: 'variant-2',
+            productName: 'Jacket',
+            variantName: 'Blue Jacket/S',
+            priceTimesQuantity: 200,
+            quantity: 2,
+            sku: 'sku-2'
+        }
+    ];
 
-ot.addProduct(
-    'product-1',
-    'variant-1',
-    'Jacket',
-    'Red Jacket/S',
-    100,
-    1,
-    'sku-1'
-).addProduct(
-    'product-1',
-    'variant-2',
-    'Jacket',
-    'Blue Jacket/S',
-    200,
-    2,
-    'sku-2'
-);
+    useFasletOrderTracking('Faslet Demo', 'Order-1', 'paid', productsInOrder)
 
-ot.buildOrderTracking();
+    return (<p>Thank you for your order!</p>);
+}
 ```
 
 ### Examples
 
-To run the examples, first make sure you have [rollup](https://rollupjs.org) installed:
-```bash
-npm install --global rollup
-```
-
-Then, from the examples folder:
+The examples are built with Create-React-App. 
+From the examples folder:
 
 ```bash
 npm install
-npm run build
-npx serve -l 6677 ./static
+npm start
 ```
 
 And then in your browser, navigate to:
 
-http://localhost:6677/product
+http://localhost:3000/
 
 for the Widget example and
 
-http://localhost:6677/thank-you
+http://localhost:3000/thank-you
 
 for the Order Tracking example. Note that Order tracking only sends events, which you would see in the network tab of your browser's dev-tools.
 
@@ -101,11 +106,4 @@ This project uses npm. First run install before starting development:
 
 ```bash
 npm install
-```
-
-### Testing
-
-This project uses Jest for testing. To run, simply run the following command:
-```bash
-npm run test
 ```

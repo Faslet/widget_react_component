@@ -13,6 +13,7 @@ export function ThankYou() {
             sku: 'sku-1'
         }, {
             productId: 'product-1',
+
             variantId: 'variant-2',
             productName: 'Jacket',
             variantName: 'Blue Jacket/S',
@@ -22,6 +23,7 @@ export function ThankYou() {
         }
     ];
 
+
     useFasletOrderTracking("Faslet Demo", "Order-1", "paid", productsInOrder)
 
     return <>
@@ -29,7 +31,7 @@ export function ThankYou() {
             <h2>Thank you</h2>
             <p>Your order has been received!</p>
 
-            <img className="main-image" src="https://placekitten.com/600/400" alt="main" />
+            <img className="main-image" src="https://placekitten.com/600/400" alt="main"/>
         </div>
     </>
 }
