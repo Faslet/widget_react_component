@@ -1,0 +1,24 @@
+{
+  "version": "4.6.2",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "commonjs",
+    "target": "es6",
+    "moduleResolution": "node",
+    "rootDir": "./",
+    "outDir": "./build",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "declaration": true,
+    "baseUrl": "src",
+    "resolveJsonModule": true,
+    "jsx": "react"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}

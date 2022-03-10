@@ -1,0 +1,86 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, sans-serif;
+}
+
+
+header {
+  background-color: #50aa8d;
+  height: 64px;
+  font-size: 32px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 16px;
+  color: white;
+}
+
+main {
+  max-width: 800px;
+  margin: auto;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.gap {
+  flex: 0 0 16px;
+}
+
+.main-image {
+  border: 2px solid #50aa8d;
+  border-radius: 5px;
+}
+
+.small-image {
+  border: 2px solid #50aa8d;
+  margin: 10px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-to-cart {
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 12px;
+  background-color: #50aa8d;
+  border: 0px;
+  border-radius: 5px;
+}
+
+.flex-auto {
+  flex: 1 1 auto;
+}
+
+.label {
+  flex: 0 0 100px;
+  align-self: center;
+}
+
+select, input {
+  border: 1px solid #50aa8d;
+  border-radius: 5px;
+  height: 32px;
+  align-self: center;
+}
+
+.vertical-center {
+  align-self: center;
+}
+
+#faslet-container {
+  /* Only added to compensate for our Demo store's layout, not needed */
+  padding-top: 16px;
+  align-self: center;
+}

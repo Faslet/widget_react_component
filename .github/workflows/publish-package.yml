@@ -1,0 +1,25 @@
+name: NPM Publish
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish to npm
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+      - run: npm ci
+      - run: npm run test
+      - run: npm run build
+      - run: echo "TAG=$(echo ${GITHUB_REF#refs/*/})" >> $GITHUB_ENV
+      - run: npm version $TAG --no-git-tag-version
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
