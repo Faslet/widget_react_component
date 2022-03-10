@@ -18,7 +18,7 @@
     "baseUrl": "src",
     "resolveJsonModule": true,
     "jsx": "react",
-    "sourceRoot": "src/"
+    "sourceRoot": "../"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
