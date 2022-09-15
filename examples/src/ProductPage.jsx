@@ -6,14 +6,18 @@ export function ProductPage() {
         window.alert(`Add ${id} to cart`);
     };
 
+    const onResult = ({ label }, resultType) => {
+        console.log(`Got Result ${label} from resultType ${resultType}`);
+    }
+
     const colors = [{ id: 'red', name: 'Magnificent Red'},{ id: 'blue', name: 'Dashing Blue'}];
     const variants = [
-        {variantId: 'variant-1', sizeLabel: 'S', inStock: true, sku: 'sku-1', colorId: 'red' },
-        {variantId: 'variant-2', sizeLabel: 'S', inStock: true, sku: 'sku-2', colorId: 'blue' },
-        {variantId: 'variant-3', sizeLabel: 'M', inStock: true, sku: 'sku-3', colorId: 'red' },
-        {variantId: 'variant-4', sizeLabel: 'M', inStock: false, sku: 'sku-4', colorId: 'blue' },
-        {variantId: 'variant-5', sizeLabel: 'L', inStock: false, sku: 'sku-5', colorId: 'red' },
-        {variantId: 'variant-6', sizeLabel: 'L', inStock: false, sku: 'sku-6', colorId: 'blue' }
+        {variantId: 'variant-1', sizeLabel: 'S', inStock: true, sku: 'sku-1', colorId: 'red', price: 11.99, imageUrl: 'https://placekitten.com/300/500' },
+        {variantId: 'variant-2', sizeLabel: 'S', inStock: true, sku: 'sku-2', colorId: 'blue', price: 11.99, imageUrl: 'https://placekitten.com/300/500' },
+        {variantId: 'variant-3', sizeLabel: 'M', inStock: true, sku: 'sku-3', colorId: 'red', price: 11.99, imageUrl: 'https://placekitten.com/300/500' },
+        {variantId: 'variant-4', sizeLabel: 'M', inStock: false, sku: 'sku-4', colorId: 'blue', price: 11.99, imageUrl: 'https://placekitten.com/300/500' },
+        {variantId: 'variant-5', sizeLabel: 'L', inStock: false, sku: 'sku-5', colorId: 'red', price: 11.99, imageUrl: 'https://placekitten.com/300/500' },
+        {variantId: 'variant-6', sizeLabel: 'L', inStock: false, sku: 'sku-6', colorId: 'blue', price: 11.99, imageUrl: 'https://placekitten.com/300/500' }
     ];
 
     return <>
@@ -70,6 +74,7 @@ export function ProductPage() {
                             colors={colors}
                             variants={variants}
                             onAddToCart={addToCart}
+                            onResult={onResult}
                         />
                     </div>
                 </div>

@@ -11,6 +11,8 @@ export interface Variant {
   inStock: boolean;
   sku: string;
   colorId: string;
+  price?: number;
+  imageUrl?: string;
 }
 
 export interface FasletWidgetProps {
@@ -25,6 +27,10 @@ export interface FasletWidgetProps {
   colors?: Color[];
   shopPageUrl?: string;
   onAddToCart?: (id: string) => Promise<unknown>;
+  onResult?: (
+    { label: string },
+    resultType: 'auto' | 'result-screen'
+  ) => unknown;
 }
 
 export function FasletWidget({
@@ -38,7 +44,8 @@ export function FasletWidget({
   variants,
   colors,
   onAddToCart,
-  shopPageUrl
+  shopPageUrl,
+  onResult
 }: FasletWidgetProps) {
   // Add script tag to head
   useEffect(() => {
@@ -70,11 +77,14 @@ export function FasletWidget({
       sku: variant.sku,
       id: variant.variantId,
       available: variant.inStock,
-      color: variant.colorId
+      color: variant.colorId,
+      price: variant.price,
+      imageUrl: variant.imageUrl
     })),
     colors,
     shopUrl: shopPageUrl,
-    addToCart: onAddToCart
+    addToCart: onAddToCart,
+    onResult
   };
 
   return (

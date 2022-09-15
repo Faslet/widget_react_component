@@ -6,12 +6,21 @@ interface Window {
     addToCart?: (variantId: string) => Promise<unknown>;
     onButtonShow?: () => unknown;
     onButtonHidden?: () => unknown;
+    openWidget?: () => unknown;
+    onResult?: (
+      { label: string },
+      resultType: 'auto' | 'result-screen'
+    ) => unknown;
+    onColorSelected?: (colorId: string) => unknown;
+    selectColor?: (colorId: string) => unknown;
     variants: {
       size: string;
       color?: string;
       id: string;
       available: boolean;
       sku: string;
+      price?: number;
+      imageUrl?: string;
     }[];
     colors?: {
       id: string;
