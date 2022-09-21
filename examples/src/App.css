@@ -2,6 +2,11 @@ body {
   margin: 0;
   padding: 0;
   font-family: Roboto, sans-serif;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 
@@ -17,7 +22,7 @@ header {
 }
 
 main {
-  max-width: 800px;
+  max-width: 1080px;
   margin: auto;
 }
 
@@ -32,6 +37,7 @@ main {
 .main-image {
   border: 2px solid #50aa8d;
   border-radius: 5px;
+  max-width: 100%;
 }
 
 .small-image {
@@ -42,6 +48,7 @@ main {
 .row {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .column {

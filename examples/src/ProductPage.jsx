@@ -27,11 +27,9 @@ export function ProductPage() {
             <div className="images column">
                 <img className="main-image" src="https://placekitten.com/400/500" alt="main"/>
                 <div className="row">
-                    <div className="spacer"></div>
-                    <img className="small-image" src="https://placekitten.com/100/120?1" alt="secondary"/>
-                    <img className="small-image" src="https://placekitten.com/100/120?2" alt="secondary"/>
-                    <img className="small-image" src="https://placekitten.com/100/120?3" alt="secondary"/>
-                    <div className="spacer"></div>
+                    <img className="small-image" src="https://placekitten.com/90/120?1" alt="secondary"/>
+                    <img className="small-image" src="https://placekitten.com/90/120?2" alt="secondary"/>
+                    <img className="small-image" src="https://placekitten.com/90/120?3" alt="secondary"/>
                 </div>
             </div>
             <div className="gap"></div>
