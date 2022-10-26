@@ -66,7 +66,6 @@ export function ProductPage() {
                             productId="product-1"
                             shopId="Faslet Demo"
                             brandId="Faslet Demo Brand"
-                            fasletTag="Faslet_Jacket_Male"
                             productImageUrl="https://placekitten.com/100/150"
                             productName="Jacket"
                             colors={colors}
