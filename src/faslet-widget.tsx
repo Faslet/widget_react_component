@@ -1,36 +1,34 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from 'react'
 
 export interface Color {
-  id: string;
-  name: string;
+  id: string
+  name: string
 }
 
 export interface Variant {
-  variantId: string;
-  sizeLabel: string;
-  inStock: boolean;
-  sku: string;
-  colorId: string;
-  price?: number;
-  imageUrl?: string;
+  variantId: string
+  sizeLabel: string
+  inStock: boolean
+  sku: string
+  colorId: string
+  price?: number
+  imageUrl?: string
 }
 
 export interface FasletWidgetProps {
-  shopId: string;
-  brandId: string;
-  productId: string;
-  productName: string;
-  productImageUrl: string;
-  fasletTag?: string;
-  locale?: string;
-  variants: Variant[];
-  colors?: Color[];
-  shopPageUrl?: string;
-  onAddToCart?: (id: string) => Promise<unknown>;
-  onResult?: (
-    { label: string },
-    resultType: 'auto' | 'result-screen'
-  ) => unknown;
+  shopId: string
+  brandId: string
+  productId: string
+  productName: string
+  productImageUrl: string
+  fasletTag?: string
+  locale?: string
+  disableProductRecommendations?: boolean
+  variants: Variant[]
+  colors?: Color[]
+  shopPageUrl?: string
+  onAddToCart?: (id: string) => Promise<unknown>
+  onResult?: ({ label }: { label: string }, resultType: 'auto' | 'result-screen') => unknown
 }
 
 export function FasletWidget({
@@ -41,51 +39,57 @@ export function FasletWidget({
   productName,
   productImageUrl,
   locale,
+  disableProductRecommendations,
   variants,
   colors,
   onAddToCart,
   shopPageUrl,
-  onResult
+  onResult,
 }: FasletWidgetProps) {
   // Add script tag to head
   useEffect(() => {
-    const existing = document.querySelector('script#faslet-script-tag');
+    const existing = document.querySelector('script#faslet-script-tag')
     // Don't add twice
     if (existing) {
-      return;
+      return
     }
-    const root =
-      document.getElementsByTagName('script')[0] ?? document.head.lastChild;
+    const root = document.getElementsByTagName('script')[0] ?? document.head.lastChild
 
-    const faslet = document.createElement('script');
-    faslet.type = 'text/javascript';
-    faslet.id = 'faslet-script-tag';
-    faslet.src = 'https://widget.prod.faslet.net/faslet-app.min.js';
-    faslet.defer = true;
+    const faslet = document.createElement('script')
+    faslet.type = 'text/javascript'
+    faslet.id = 'faslet-script-tag'
+    faslet.src = 'https://widget.prod.faslet.net/faslet-app.min.js'
+    faslet.defer = true
     if (root) {
-      root.parentNode.insertBefore(faslet, root);
+      root.parentNode.insertBefore(faslet, root)
     } else {
-      document.head.appendChild(faslet);
+      document.head.appendChild(faslet)
     }
-  }, []);
+  }, [])
 
   window._faslet = {
     ...window._faslet,
     id: productId,
-    variants: variants.map((variant) => ({
+    variants: variants.map(variant => ({
       size: variant.sizeLabel,
       sku: variant.sku,
       id: variant.variantId,
       available: variant.inStock,
       color: variant.colorId,
       price: variant.price,
-      imageUrl: variant.imageUrl
+      imageUrl: variant.imageUrl,
     })),
     colors,
     shopUrl: shopPageUrl,
     addToCart: onAddToCart,
-    onResult
-  };
+    onResult,
+  }
+
+  const extraAttributes: Record<string, any> = {}
+
+  if (disableProductRecommendations) {
+    extraAttributes['disable-product-recommendations'] = true
+  }
 
   return (
     <faslet-app
@@ -96,6 +100,7 @@ export function FasletWidget({
       brand={brandId}
       product-img={productImageUrl}
       locale={locale}
+      {...extraAttributes}
     />
-  );
+  )
 }
