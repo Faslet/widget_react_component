@@ -29,6 +29,16 @@ export interface FasletWidgetProps {
   shopPageUrl?: string
   onAddToCart?: (id: string) => Promise<unknown>
   onResult?: ({ label }: { label: string }, resultType: 'auto' | 'result-screen') => unknown
+  onDataChanged?: (userData: {
+    userId: string
+    widgetVersion?: string
+    seenExperiments?: string
+    experimentVariants?: string
+    profile?: unknown
+  }) => unknown
+  userId?: string
+  onButtonShow?: () => unknown
+  onButtonHidden?: () => unknown
 }
 
 export function FasletWidget({
@@ -45,6 +55,10 @@ export function FasletWidget({
   onAddToCart,
   shopPageUrl,
   onResult,
+  onDataChanged,
+  userId,
+  onButtonShow,
+  onButtonHidden,
 }: FasletWidgetProps) {
   // Add script tag to head
   useEffect(() => {
@@ -83,12 +97,19 @@ export function FasletWidget({
     shopUrl: shopPageUrl,
     addToCart: onAddToCart,
     onResult,
+    onDataChanged,
+    onButtonShow,
+    onButtonHidden,
   }
 
   const extraAttributes: Record<string, any> = {}
 
   if (disableProductRecommendations) {
     extraAttributes['disable-product-recommendations'] = true
+  }
+
+  if (userId) {
+    extraAttributes['user-id'] = userId
   }
 
   return (
