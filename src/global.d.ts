@@ -30,11 +30,11 @@ interface Window {
       experimentVariants?: string
       profile?: unknown
     }) => unknown
+    onOpen?: (productId?: string) => unknown
+    onClose?: (productId?: string) => unknown
   }
   _faslet_orders?: {
     configure: () => unknown
     event: (name: string, shopId: string, eventData: unknown) => unknown
   }
-  onOpen?: (productId?: string) => unknown
-  onClose?: (productId?: string) => unknown
 }
