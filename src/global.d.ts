@@ -35,4 +35,6 @@ interface Window {
     configure: () => unknown
     event: (name: string, shopId: string, eventData: unknown) => unknown
   }
+  onOpen?: (productId?: string) => unknown
+  onClose?: (productId?: string) => unknown
 }

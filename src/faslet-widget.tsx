@@ -39,6 +39,8 @@ export interface FasletWidgetProps {
   userId?: string
   onButtonShow?: () => unknown
   onButtonHidden?: () => unknown
+  onOpen?: (productId?: string) => unknown
+  onClose?: (productId?: string) => unknown
 }
 
 export function FasletWidget({
@@ -59,6 +61,8 @@ export function FasletWidget({
   userId,
   onButtonShow,
   onButtonHidden,
+  onOpen,
+  onClose,
 }: FasletWidgetProps) {
   // Add script tag to head
   useEffect(() => {
@@ -100,6 +104,8 @@ export function FasletWidget({
     onDataChanged,
     onButtonShow,
     onButtonHidden,
+    onOpen,
+    onClose,
   }
 
   const extraAttributes: Record<string, any> = {}
