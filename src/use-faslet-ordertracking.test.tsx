@@ -142,6 +142,28 @@ test.each([false, true])('retries a failed script on remount (existing tag: %s)'
   }
 });
 
+test('recovers on remount when an existing script failed before the hook mounted', async () => {
+  jest.useFakeTimers();
+  const log = jest.spyOn(console, 'error').mockImplementation(() => {});
+  try {
+    const failedScript = document.createElement('script');
+    failedScript.id = 'faslet-order-tracking-tag';
+    document.head.appendChild(failedScript);
+    failedScript.dispatchEvent(new Event('error'));
+    await mount(<Tracker order="A" />);
+    await act(async () => { jest.runOnlyPendingTimers(); });
+    expect(script()).toBeNull();
+    expect(event).not.toHaveBeenCalled();
+    unmount();
+    await mount(<Tracker order="B" />);
+    await finishLoad();
+    expect(sentOrders()).toEqual(['B']);
+  } finally {
+    log.mockRestore();
+    jest.useRealTimers();
+  }
+});
+
 test('retries configuration before dispatching after initialization fails', async () => {
   const log = jest.spyOn(console, 'error').mockImplementation(() => {});
   try {

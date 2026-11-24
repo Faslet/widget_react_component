@@ -12,6 +12,7 @@ export interface Product {
 
 type OrderTracker = NonNullable<Window['_faslet_orders']>;
 
+const EXISTING_SCRIPT_TIMEOUT_MS = 15_000;
 let trackerReady: Promise<OrderTracker> | undefined;
 const dispatchedLines = new Map<string, number>();
 
@@ -37,7 +38,10 @@ function getOrderTracker(): Promise<OrderTracker> {
   const faslet = existing ?? document.createElement('script');
 
   return new Promise<OrderTracker>((resolve, reject) => {
+    let timeout: number | undefined;
+
     function cleanup() {
+      window.clearTimeout(timeout);
       faslet.removeEventListener('load', onLoad);
       faslet.removeEventListener('error', onError);
     }
@@ -60,7 +64,10 @@ function getOrderTracker(): Promise<OrderTracker> {
     faslet.addEventListener('load', onLoad);
     faslet.addEventListener('error', onError);
 
-    if (!existing) {
+    if (existing) {
+      // The existing tag may have failed before we could observe its error event.
+      timeout = window.setTimeout(onError, EXISTING_SCRIPT_TIMEOUT_MS);
+    } else {
       faslet.id = 'faslet-order-tracking-tag';
       faslet.src = 'https://widget.prod.faslet.net/faslet-orders.js';
       document.head.appendChild(faslet);
