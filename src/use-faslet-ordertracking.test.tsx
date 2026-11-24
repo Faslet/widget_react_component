@@ -94,7 +94,7 @@ test('shares one script across concurrent consumers without duplicating an order
   expect(sentOrders()).toEqual(['A', 'B']);
   expect(configure).toHaveBeenCalledTimes(1);
   expect(document.querySelectorAll('#faslet-order-tracking-tag')).toHaveLength(1);
-  expect(document.querySelectorAll('#faslet-gtm-tag')).toHaveLength(1);
+  expect(document.querySelectorAll('#faslet-gtm-tag, script[src*="googletagmanager.com"]')).toHaveLength(0);
 });
 
 test('dispatches an additional identical row without replaying the first row', async () => {
@@ -136,7 +136,7 @@ test.each([false, true])('retries a failed script on remount (existing tag: %s)'
     await finishLoad();
 
     expect(sentOrders()).toEqual(['B']);
-    expect(document.querySelectorAll('#faslet-gtm-tag')).toHaveLength(1);
+    expect(document.querySelectorAll('#faslet-gtm-tag, script[src*="googletagmanager.com"]')).toHaveLength(0);
   } finally {
     log.mockRestore();
   }

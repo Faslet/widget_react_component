@@ -71,14 +71,6 @@ function getOrderTracker(): Promise<OrderTracker> {
       faslet.id = 'faslet-order-tracking-tag';
       faslet.src = 'https://widget.prod.faslet.net/faslet-orders.js';
       document.head.appendChild(faslet);
-
-      if (!document.getElementById('faslet-gtm-tag')) {
-        const gtm = document.createElement('script');
-        gtm.id = 'faslet-gtm-tag';
-        gtm.src = 'https://www.googletagmanager.com/gtag/js?id=G-6J8TML143D';
-        gtm.defer = true;
-        document.head.appendChild(gtm);
-      }
     }
   }).catch((error) => {
     // Remove the failed tag, including an existing tag we adopted, so a later mount can retry.
