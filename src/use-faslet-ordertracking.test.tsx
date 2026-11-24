@@ -117,9 +117,14 @@ test('uses the latest shop and payment status as part of the dispatch identity',
   ]);
 });
 
-test('retries a failed script on remount without inserting another GTM tag', async () => {
+test.each([false, true])('retries a failed script on remount (existing tag: %s)', async (existing) => {
   const log = jest.spyOn(console, 'error').mockImplementation(() => {});
   try {
+    if (existing) {
+      const tag = document.createElement('script');
+      tag.id = 'faslet-order-tracking-tag';
+      document.head.appendChild(tag);
+    }
     await mount(<Tracker order="A" />);
     const failedScript = script();
     await act(async () => { failedScript.dispatchEvent(new Event('error')); });

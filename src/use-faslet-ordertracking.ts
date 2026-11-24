@@ -74,8 +74,8 @@ function getOrderTracker(): Promise<OrderTracker> {
       }
     }
   }).catch((error) => {
-    // A later mount can retry a script this loader failed to load.
-    if (!existing) faslet.remove();
+    // Remove the failed tag, including an existing tag we adopted, so a later mount can retry.
+    faslet.remove();
     throw error;
   });
 }
