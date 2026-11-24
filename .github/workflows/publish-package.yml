@@ -5,21 +5,26 @@ on:
     tags:
       - "v*.*.*"
 
+permissions:
+  contents: read
+
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
-      - uses: actions/checkout@v2
-      - name: Publish to npm
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v7
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
         with:
-          node-version: 16
-          registry-url: https://registry.npmjs.org/
+          node-version: 24
+          package-manager-cache: false
       - run: npm ci
-#      - run: npm run test
+      - run: npm test -- --runInBand
       - run: npm run build
-      - run: echo "TAG=$(echo ${GITHUB_REF#refs/*/})" >> $GITHUB_ENV
-      - run: npm version $TAG --no-git-tag-version
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Set package version from release tag
+        run: npm version "${GITHUB_REF_NAME#v}" --no-git-tag-version
+      - name: Publish to npm with OIDC
+        run: npm publish

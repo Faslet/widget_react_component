@@ -107,3 +107,14 @@ This project uses npm. First run install before starting development:
 ```bash
 npm install
 ```
+
+### Publishing
+
+Pushing a tag such as `v1.2.3` runs the [publish workflow](.github/workflows/publish-package.yml),
+tests and builds the package, and publishes version `1.2.3` using npm trusted publishing (OIDC).
+The workflow uses Node.js 24 and npm 11.5.1 or newer, with no `NPM_TOKEN` secret required.
+
+Before publishing, configure a GitHub Actions Trusted Publisher in the npm settings for
+`@faslet/react-widget` with organization `Faslet`, repository `widget_react_component`,
+and workflow filename `publish-package.yml`. Leave the environment name empty and enable
+direct publishing with `npm publish`. See the [npm trusted publishing documentation](https://docs.npmjs.com/trusted-publishers/).
