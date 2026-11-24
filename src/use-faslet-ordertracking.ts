@@ -17,6 +17,18 @@ const dispatchedLines = new Map<string, number>();
 
 function loadOrderTracker(): Promise<OrderTracker> {
   if (trackerReady) return trackerReady;
+
+  trackerReady = getOrderTracker().then((tracker) => {
+    tracker.configure();
+    return tracker;
+  }).catch((error) => {
+    trackerReady = undefined;
+    throw error;
+  });
+  return trackerReady;
+}
+
+function getOrderTracker(): Promise<OrderTracker> {
   if (typeof window._faslet_orders?.event === 'function') {
     return Promise.resolve(window._faslet_orders);
   }
@@ -24,7 +36,7 @@ function loadOrderTracker(): Promise<OrderTracker> {
   const existing = document.querySelector<HTMLScriptElement>('script#faslet-order-tracking-tag');
   const faslet = existing ?? document.createElement('script');
 
-  trackerReady = new Promise<OrderTracker>((resolve, reject) => {
+  return new Promise<OrderTracker>((resolve, reject) => {
     function cleanup() {
       faslet.removeEventListener('load', onLoad);
       faslet.removeEventListener('error', onError);
@@ -32,15 +44,11 @@ function loadOrderTracker(): Promise<OrderTracker> {
 
     function onLoad() {
       cleanup();
-      try {
-        const tracker = window._faslet_orders;
-        if (typeof tracker?.event !== 'function') {
-          throw new Error('Faslet order tracker is unavailable after script load');
-        }
-        tracker.configure();
+      const tracker = window._faslet_orders;
+      if (typeof tracker?.event !== 'function') {
+        reject(new Error('Faslet order tracker is unavailable after script load'));
+      } else {
         resolve(tracker);
-      } catch (error) {
-        reject(error);
       }
     }
 
@@ -66,13 +74,10 @@ function loadOrderTracker(): Promise<OrderTracker> {
       }
     }
   }).catch((error) => {
-    // A later mount can retry a script this loader failed to initialize.
+    // A later mount can retry a script this loader failed to load.
     if (!existing) faslet.remove();
-    trackerReady = undefined;
     throw error;
   });
-
-  return trackerReady;
 }
 
 export const useFasletOrderTracking = (

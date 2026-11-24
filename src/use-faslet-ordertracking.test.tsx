@@ -136,3 +136,20 @@ test('retries a failed script on remount without inserting another GTM tag', asy
     log.mockRestore();
   }
 });
+
+test('retries configuration before dispatching after initialization fails', async () => {
+  const log = jest.spyOn(console, 'error').mockImplementation(() => {});
+  try {
+    configure.mockImplementationOnce(() => { throw new Error('Configuration failed'); });
+    await mount(<Tracker order="A" />);
+    await finishLoad();
+    expect(event).not.toHaveBeenCalled();
+    unmount();
+    await mount(<Tracker order="B" />);
+
+    expect(configure).toHaveBeenCalledTimes(2);
+    expect(sentOrders()).toEqual(['B']);
+  } finally {
+    log.mockRestore();
+  }
+});
